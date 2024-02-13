@@ -10,11 +10,9 @@ public class Client {
         String serverHost = "localhost";
         int serverPort = 8080;
 
-        try {
-            Socket socket = new Socket(serverHost, serverPort);
-
-            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        try (Socket socket = new Socket(serverHost, serverPort);
+             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
 
             // Sending a message to the server
             out.println("Ivan Goyda");
@@ -23,7 +21,6 @@ public class Client {
             String response = in.readLine();
             System.out.println("Server response: " + response);
 
-            socket.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
